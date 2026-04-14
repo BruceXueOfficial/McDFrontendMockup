@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>值班教练反馈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== Reset & Base ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --mcd-yellow: #FFBC0D;
+  --mcd-yellow-light: #FFF4D4;
+  --mcd-yellow-pale: #FFFBEF;
+  --mcd-red: #DA291C;
+  --mcd-dark: #292929;
+  --mcd-gray-900: #333333;
+  --mcd-gray-700: #555555;
+  --mcd-gray-500: #888888;
+  --mcd-gray-400: #AAAAAA;
+  --mcd-gray-200: #E8E8E8;
+  --mcd-gray-100: #F5F5F5;
+  --mcd-bg: #F2F2F2;
+  --mcd-white: #FFFFFF;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-card: 0 1px 4px rgba(0,0,0,0.06);
+  --font: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font);
+  background: var(--mcd-bg);
+  color: var(--mcd-dark);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== Status Bar Spacer ========== */
+.status-bar {
+  height: calc(44px + var(--safe-top));
+  padding-top: var(--safe-top);
+  background: var(--mcd-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ========== Nav Bar ========== */
+.nav-bar {
+  background: var(--mcd-yellow);
+  padding: 0 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: calc(44px + var(--safe-top));
+  z-index: 99;
+}
+
+.nav-bar__back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--mcd-dark);
+  cursor: pointer;
+  padding: 8px 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-bar__back svg { width: 20px; height: 20px; }
+
+.nav-bar__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-bar__btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.08);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+
+.nav-bar__btn:active { background: rgba(0,0,0,0.15); }
+.nav-bar__btn svg { width: 18px; height: 18px; }
+
+/* ========== Content ========== */
+.content {
+  padding: 16px;
+  padding-bottom: calc(100px + var(--safe-bottom));
+}
+
+/* ========== Card ========== */
+.card {
+  background: var(--mcd-white);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+/* ========== Person Info ========== */
+.person-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.person-header__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--mcd-dark);
+}
+
+.person-header__link {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--mcd-dark);
+  color: var(--mcd-white);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s;
+}
+
+.person-header__link:active { opacity: 0.8; }
+.person-header__link svg { width: 14px; height: 14px; }
+
+.person-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.person-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--mcd-yellow-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.person-avatar__emoji {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.person-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--mcd-dark);
+  margin-bottom: 4px;
+}
+
+.person-meta {
+  font-size: 13px;
+  color: var(--mcd-gray-500);
+  display: flex;
+  gap: 16px;
+}
+
+/* ========== Section Title ========== */
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--mcd-dark);
+  margin-bottom: 20px;
+}
+
+/* ========== Feedback Block ========== */
+.feedback-block {
+  margin-bottom: 28px;
+}
+
+.feedback-block:last-child { margin-bottom: 0; }
+
+.feedback-block__header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.feedback-block__indicator {
+  width: 3px;
+  height: 18px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.feedback-block__indicator--green { background: #34A853; }
+.feedback-block__indicator--orange { background: #FF8C00; }
+.feedback-block__indicator--blue { background: #4285F4; }
+
+.feedback-block__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--mcd-dark);
+}
+
+.feedback-block__subtitle {
+  font-size: 13px;
+  color: var(--mcd-gray-500);
+  margin-bottom: 14px;
+  padding-left: 11px;
+}
+
+/* ========== Tags ========== */
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--mcd-gray-200);
+  background: var(--mcd-white);
+  font-size: 14px;
+  color: var(--mcd-gray-700);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tag:active { transform: scale(0.96); }
+
+.tag__check {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mcd-gray-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tag__check svg {
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.tag.active {
+  border-color: var(--mcd-yellow);
+  background: var(--mcd-yellow-pale);
+  color: var(--mcd-dark);
+  font-weight: 500;
+}
+
+.tag.active .tag__check {
+  background: var(--mcd-yellow);
+  border-color: var(--mcd-yellow);
+}
+
+.tag.active .tag__check svg { opacity: 1; }
+
+/* ========== Guide Text ========== */
+.guide-text {
+  font-size: 13px;
+  color: var(--mcd-gray-500);
+  background: none;
+  padding: 0;
+  margin-bottom: 0;
+  line-height: 1.5;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease, margin 0.35s ease;
+}
+
+.guide-text.visible {
+  max-height: 120px;
+  opacity: 1;
+  padding: 4px 0;
+  margin-bottom: 10px;
+}
+
+/* ========== Textarea ========== */
+.textarea-wrap {
+  position: relative;
+}
+
+.textarea-wrap textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px;
+  border: 1.5px solid var(--mcd-gray-200);
+  border-radius: var(--radius-md);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--mcd-dark);
+  background: var(--mcd-white);
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.6;
+  -webkit-appearance: none;
+}
+
+.textarea-wrap textarea::placeholder {
+  color: var(--mcd-gray-400);
+  font-size: 13px;
+}
+
+.textarea-wrap textarea:focus {
+  border-color: var(--mcd-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 188, 13, 0.15);
+}
+
+.textarea-wrap textarea:disabled {
+  background: var(--mcd-gray-100);
+  color: var(--mcd-gray-400);
+  cursor: not-allowed;
+}
+
+.textarea-wrap textarea:disabled::placeholder {
+  color: var(--mcd-gray-400);
+}
+
+/* ========== Submit Bar ========== */
+.submit-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + var(--safe-bottom));
+  background: var(--mcd-white);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+  z-index: 50;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--mcd-yellow);
+  color: var(--mcd-dark);
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+  background: #E8AB00;
+}
+
+.submit-btn:disabled {
+  background: var(--mcd-gray-200);
+  color: var(--mcd-gray-400);
+}
+
+/* ========== Toast ========== */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  background: rgba(0,0,0,0.75);
+  color: white;
+  padding: 14px 28px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ========== Animations ========== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card { animation: fadeInUp 0.4s ease backwards; }
+.card:nth-child(2) { animation-delay: 0.08s; }
+</style>
+</head>
+<body>
+<!-- Status Bar -->
+<div class="status-bar"></div>
+
+<!-- Nav Bar -->
+<nav class="nav-bar">
+  <button class="nav-bar__back" aria-label="返回">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    值班教练反馈
+  </button>
+  <div class="nav-bar__actions">
+    <button class="nav-bar__btn" aria-label="更多">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+    </button>
+    <button class="nav-bar__btn" aria-label="拍照">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Content -->
+<main class="content">
+
+  <!-- 人员信息 -->
+  <section class="card">
+    <div class="person-header">
+      <h2 class="person-header__title">人员信息</h2>
+      <button class="person-header__link">
+        值班情况
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="person-info">
+      <div class="person-avatar">
+        <span class="person-avatar__emoji">😊</span>
+      </div>
+      <div>
+        <div class="person-name">刘翠翠 (Patrick Chen)</div>
+        <div class="person-meta">
+          <span>工号：10065998</span>
+          <span>值班时间：2024.09.08</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 教练反馈 -->
+  <section class="card">
+    <h2 class="section-title">教练反馈</h2>
+
+    <!-- Do Well -->
+    <div class="feedback-block" data-block="dowell">
+      <div class="feedback-block__header">
+        <span class="feedback-block__indicator feedback-block__indicator--green"></span>
+        <span class="feedback-block__title">Do Well!</span>
+      </div>
+      <p class="feedback-block__subtitle">做得好的，继续保持的方面！</p>
+      <div class="tags-row">
+        <button class="tag" data-tag="顾客体验" data-block-id="dowell">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          顾客体验
+        </button>
+        <button class="tag" data-tag="员工体验" data-block-id="dowell">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          员工体验
+        </button>
+        <button class="tag" data-tag="业务达成" data-block-id="dowell">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          业务达成
+        </button>
+        <button class="tag" data-tag="其他" data-block-id="dowell">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          其他
+        </button>
+      </div>
+      <div class="guide-text" id="guide-dowell"></div>
+      <div class="textarea-wrap">
+        <textarea placeholder="请选择标签后再根据指引填写" disabled data-block-id="dowell"></textarea>
+      </div>
+    </div>
+
+    <!-- Do Better -->
+    <div class="feedback-block" data-block="dobetter">
+      <div class="feedback-block__header">
+        <span class="feedback-block__indicator feedback-block__indicator--orange"></span>
+        <span class="feedback-block__title">Do Better!</span>
+      </div>
+      <p class="feedback-block__subtitle">可以做得更好的，有待改进的方面！</p>
+      <div class="tags-row">
+        <button class="tag" data-tag="顾客体验" data-block-id="dobetter">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          顾客体验
+        </button>
+        <button class="tag" data-tag="员工体验" data-block-id="dobetter">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          员工体验
+        </button>
+        <button class="tag" data-tag="业务达成" data-block-id="dobetter">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          业务达成
+        </button>
+        <button class="tag" data-tag="其他" data-block-id="dobetter">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          其他
+        </button>
+      </div>
+      <div class="guide-text" id="guide-dobetter"></div>
+      <div class="textarea-wrap">
+        <textarea placeholder="请选择标签后再根据指引填写" disabled data-block-id="dobetter"></textarea>
+      </div>
+    </div>
+
+    <!-- Do Next -->
+    <div class="feedback-block" data-block="donext">
+      <div class="feedback-block__header">
+        <span class="feedback-block__indicator feedback-block__indicator--blue"></span>
+        <span class="feedback-block__title">Do Next!</span>
+      </div>
+      <p class="feedback-block__subtitle">下一步的行动计划和改进方向！</p>
+      <div class="tags-row">
+        <button class="tag" data-tag="顾客体验" data-block-id="donext">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          顾客体验
+        </button>
+        <button class="tag" data-tag="员工体验" data-block-id="donext">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          员工体验
+        </button>
+        <button class="tag" data-tag="业务达成" data-block-id="donext">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          业务达成
+        </button>
+        <button class="tag" data-tag="其他" data-block-id="donext">
+          <span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>
+          其他
+        </button>
+      </div>
+      <div class="guide-text" id="guide-donext"></div>
+      <div class="textarea-wrap">
+        <textarea placeholder="请选择标签后再根据指引填写" disabled data-block-id="donext"></textarea>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Submit Bar -->
+<div class="submit-bar">
+  <button class="submit-btn" id="submitBtn">提交反馈</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== 引导词配置 ==========
+const GUIDE_MAP = {
+  '顾客体验': {
+    dimensions: ['顾客整体满意度', '服务速度与效率', '问题解决能力', '顾客互动'],
+    hint: '顾客体验'
+  },
+  '员工体验': {
+    dimensions: ['员工工作积极性', '团队协作氛围', '员工关怀与认知', '训练与成长'],
+    hint: '员工体验'
+  },
+  '业务达成': {
+    dimensions: ['营业额目标达成', '食品安全执行', '运营效率', '成本管控'],
+    hint: '业务达成'
+  },
+  '其他': {
+    dimensions: ['其他观察到的亮点或问题'],
+    hint: '其他'
+  }
+};
+
+const BLOCK_PLACEHOLDERS = {
+  dowell: '请描述值班经理在哪些方面做得好，值得继续保持~',
+  dobetter: '请描述值班经理在什么场景下，做了什么行为，有哪些欠缺的地方~',
+  donext: '请描述下一步具体的改进计划和行动方向~'
+};
+
+// ========== State ==========
+const state = {
+  dowell: new Set(),
+  dobetter: new Set(),
+  donext: new Set()
+};
+
+// ========== Tag Click ==========
+document.querySelectorAll('.tag').forEach(tag => {
+  tag.addEventListener('click', function() {
+    const blockId = this.dataset.blockId;
+    const tagName = this.dataset.tag;
+
+    if (state[blockId].has(tagName)) {
+      state[blockId].delete(tagName);
+      this.classList.remove('active');
+    } else {
+      state[blockId].add(tagName);
+      this.classList.add('active');
+    }
+
+    updateGuideText(blockId);
+  });
+});
+
+// ========== Update Guide Text ==========
+function updateGuideText(blockId) {
+  const guideEl = document.getElementById(`guide-${blockId}`);
+  const textarea = document.querySelector(`textarea[data-block-id="${blockId}"]`);
+  const selectedTags = Array.from(state[blockId]);
+
+  if (selectedTags.length === 0) {
+    guideEl.classList.remove('visible');
+    guideEl.textContent = '';
+    textarea.disabled = true;
+    textarea.placeholder = '请选择标签后再根据指引填写';
+    return;
+  }
+
+  textarea.disabled = false;
+  textarea.placeholder = BLOCK_PLACEHOLDERS[blockId];
+
+  // 收集所有选中标签的维度，用顿号拼接
+  const allDimensions = selectedTags
+    .flatMap(tag => GUIDE_MAP[tag]?.dimensions || []);
+
+  const guideStr = `您可以从${allDimensions.join('、')}等方面具体夸夸！`;
+  
+  // 根据 blockId 调整引导词尾部
+  let text = guideStr;
+  if (blockId === 'dobetter') {
+    text = `您可以从${allDimensions.join('、')}等方面具体聊聊！`;
+  } else if (blockId === 'donext') {
+    text = `您可以从${allDimensions.join('、')}等方面制定计划！`;
+  }
+
+  guideEl.textContent = text;
+  guideEl.classList.add('visible');
+}
+
+// ========== Auto-resize Textarea ==========
+document.querySelectorAll('textarea').forEach(ta => {
+  ta.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.max(120, this.scrollHeight) + 'px';
+  });
+});
+
+// ========== Submit ==========
+document.getElementById('submitBtn').addEventListener('click', function() {
+  showToast('反馈提交成功 ✓');
+});
+
+// ========== Toast ==========
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
