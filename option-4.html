@@ -222,6 +222,22 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
 <main class="content">
 
   <!-- ========== 值班总览 ========== -->
+  <!-- ========== 人员信息 ========== -->
+  <section class="card">
+    <div class="person-header">
+      <h2 class="person-header__title">人员信息</h2>
+      <button class="person-header__link">值班情况<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+    <div class="person-info">
+      <div class="person-avatar"><svg viewBox="0 0 24 24" width="32" height="32" fill="#FFBC0D" stroke="none"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+      <div>
+        <div class="person-name">刘翠翠 (Patrick Chen)</div>
+        <div class="person-meta"><span>工号：10065998</span><span>值班时间：2024.09.08</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 值班总览 ========== -->
   <div class="overview-card" id="overviewCard">
     <div class="overview-header">
       <div class="overview-header__left">
@@ -234,17 +250,6 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
       </button>
     </div>
 
-    <!-- 人员信息 (moved inside overview) -->
-    <div style="padding:0 20px 16px;">
-      <div class="person-info">
-        <div class="person-avatar"><svg viewBox="0 0 24 24" width="32" height="32" fill="#FFBC0D" stroke="none"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
-        <div>
-          <div class="person-name">刘翠翠 (Patrick Chen)</div>
-          <div class="person-meta"><span>工号：10065998</span><span>值班时间：2024.09.08</span></div>
-        </div>
-      </div>
-    </div>
-
     <div class="overview-body" id="overviewBody">
 
       <!-- AI 总结 -->
@@ -254,8 +259,13 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
           <span class="ai-summary__label">AI 总结</span>
           <svg id="aiChevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--mcd-gray-500)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:auto;transition:transform 0.3s;"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="ai-summary__text" id="aiText">
-          本班次<b>业务达成表现优异</b>，Sales 达 12940 元超出目标 13622 元的预期节奏，尖峰 GC 达 346 略低于目标 358，其中 11:00-12:00 时段表现突出（108 vs 目标 77）。<b>客户满意度 OSAT 100%</b>，无客诉记录，非常棒！员工认知方面，本班次认知了 <b>3/12</b> 位员工，建议关注更多员工的表现并给予认可。值班工具完成率 85%，基础任务完成率 92%，整体值班表现良好，继续保持！
+        <div class="ai-summary__text" id="aiText" style="font-size:13px;color:var(--mcd-gray-700);line-height:1.8;">
+          <ul style="list-style:disc;padding-left:18px;margin:0;">
+            <li style="margin-bottom:6px;"><b>业务达成：</b>Sales 达 12940 元，低于目标 13622 元；尖峰 GC 达 346 略低于目标 358，其中 11:00-12:00 时段表现突出（108 vs 目标 77），MDS 渠道超额完成。</li>
+            <li style="margin-bottom:6px;"><b>客户满意：</b>OSAT 100%，达成目标；有 2 条 CCC 客诉记录，需关注服务细节。</li>
+            <li style="margin-bottom:6px;"><b>员工满意：</b>本班次认知了 3/12 位员工，建议关注更多员工的表现并给予认可。</li>
+            <li><b>值班表现：</b>基础任务完成率 92%，值班工具完成率 85%，整体值班表现良好。</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -284,7 +294,7 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         <!-- Sales -->
         <div class="metric-row">
           <div class="metric-row__left">
-            <div class="metric-row__label">班次 Sales</div>
+            <div class="metric-row__label" style="font-size:15px;font-weight:700;color:var(--mcd-dark);">班次 Sales</div>
             <div class="metric-row__sub">vs. 目标 13622</div>
           </div>
           <div class="metric-row__right">
@@ -317,7 +327,7 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         <div style="margin-top:12px; padding-top:12px; border-top:1px dashed var(--mcd-gray-200);">
           <div class="metric-row">
             <div class="metric-row__left">
-              <div class="metric-row__label">挑战尖峰 GC</div>
+              <div class="metric-row__label" style="font-size:15px;font-weight:700;color:var(--mcd-dark);">挑战尖峰 GC</div>
               <div class="metric-row__sub">vs. 目标 358</div>
             </div>
             <div class="metric-row__right">
@@ -360,7 +370,7 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         <!-- R2P -->
         <div style="margin-top:12px; padding-top:12px; border-top:1px dashed var(--mcd-gray-200);">
           <div class="metric-row">
-            <div class="metric-row__left"><div class="metric-row__label">R2P</div><div class="metric-row__sub">班次平均</div></div>
+            <div class="metric-row__left"><div class="metric-row__label" style="font-size:15px;font-weight:700;color:var(--mcd-dark);">R2P</div><div class="metric-row__sub">班次平均</div></div>
             <div class="metric-row__right"><span class="metric-row__value">3.2<span style="font-size:13px;color:var(--mcd-gray-500);">min</span></span></div>
           </div>
         </div>
@@ -377,7 +387,7 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         </div>
         <div class="metric-row">
           <div class="metric-row__left">
-            <div class="metric-row__label">班次 OSAT (00:00-14:00)</div>
+            <div class="metric-row__label" style="font-size:15px;font-weight:700;color:var(--mcd-dark);">班次 OSAT (00:00-14:00)</div>
             <div class="metric-row__sub">vs. 目标 100%</div>
           </div>
           <div class="metric-row__right">
@@ -387,10 +397,26 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         </div>
         <div class="metric-row">
           <div class="metric-row__left">
-            <div class="metric-row__label">CCC 客诉</div>
+            <div class="metric-row__label" style="font-size:15px;font-weight:700;color:var(--mcd-dark);">CCC 客诉</div>
           </div>
           <div class="metric-row__right">
-            <span class="ccc-empty">该班次无客诉 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFBC0D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><polyline points="4 12 9 17 20 6"/></svg></span>
+            <span class="metric-row__value" style="color:var(--mcd-red);">2</span>
+          </div>
+        </div>
+        <div style="margin-top:8px;">
+          <div style="background:var(--mcd-gray-100);border-radius:8px;padding:12px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:600;color:var(--mcd-dark);">订单 #MCD-20240908-1142</span>
+              <span style="font-size:11px;color:var(--mcd-gray-500);">11:42</span>
+            </div>
+            <div style="font-size:12px;color:var(--mcd-gray-700);line-height:1.6;">顾客反馈巨无霸汉堡缺少一片生菜，且薯条温度偏低，要求重新制作。</div>
+          </div>
+          <div style="background:var(--mcd-gray-100);border-radius:8px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:600;color:var(--mcd-dark);">订单 #MCD-20240908-1315</span>
+              <span style="font-size:11px;color:var(--mcd-gray-500);">13:15</span>
+            </div>
+            <div style="font-size:12px;color:var(--mcd-gray-700);line-height:1.6;">顾客等待时间超过 15 分钟，麦乐送订单配送延迟，顾客致电投诉。</div>
           </div>
         </div>
       </div>
@@ -404,15 +430,12 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
           </div>
           <span class="dim-block__title">员工满意</span>
         </div>
-        <div class="metric-row" style="border-bottom:none;">
-          <div class="metric-row__left">
-            <div class="metric-row__label" style="font-size:14px;font-weight:600;color:var(--mcd-dark);">认知员工</div>
-          </div>
-        </div>
-        <div class="staff-metric">
-          <div style="text-align:center;">
-            <div><span class="staff-metric__big">3</span><span class="staff-metric__sep"> / </span><span class="staff-metric__small">12</span></div>
-            <div class="staff-metric__label">认知员工 / 班次员工</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;">
+          <div style="font-size:14px;font-weight:600;color:var(--mcd-dark);">认知员工</div>
+          <div style="display:flex;align-items:baseline;gap:2px;">
+            <span style="font-size:28px;font-weight:900;color:var(--mcd-dark);">3</span>
+            <span style="font-size:18px;color:var(--mcd-gray-400);"> / </span>
+            <span style="font-size:16px;color:var(--mcd-gray-500);">12</span>
           </div>
         </div>
       </div>
