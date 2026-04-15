@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>值班教练反馈</title>
@@ -608,9 +608,9 @@ document.querySelectorAll('textarea').forEach(ta => {
 
 // ===== SBIA Modal =====
 document.getElementById('tipsBtn').addEventListener('click', () => {
+  var img = document.getElementById('sbiaImg');
+  if (img) { img.style.transition = ''; img.style.transform = 'translate(0,0) scale(1)'; }
   document.getElementById('sbiaModal').classList.add('show');
-  imgScale = 1;
-  document.getElementById('sbiaImg').style.transform = 'scale(1)';
 });
 document.getElementById('modalClose').addEventListener('click', () => {
   document.getElementById('sbiaModal').classList.remove('show');
@@ -619,68 +619,108 @@ document.getElementById('sbiaModal').addEventListener('click', function(e) {
   if (e.target === this) this.classList.remove('show');
 });
 
-// ===== Pinch to Zoom =====
-let imgScale = 1;
-let baseScale = 1;
-let initialDistance = 0;
-const imgWrap = document.getElementById('imgWrap');
-const sbiaImg = document.getElementById('sbiaImg');
+// ===== Pinch to Zoom (proper implementation) =====
+(function() {
+  var img = document.getElementById('sbiaImg');
+  var wrap = document.getElementById('imgWrap');
+  if (!img || !wrap) return;
 
-if (imgWrap) {
-  // Prevent default touch behaviors on the image wrapper
-  imgWrap.style.touchAction = 'none';
+  var scale = 1, lastScale = 1;
+  var posX = 0, posY = 0, lastPosX = 0, lastPosY = 0;
+  var startDist = 0, startX = 0, startY = 0;
+  var isPinching = false, isDragging = false;
+  var maxScale = 4, minScale = 1;
 
-  imgWrap.addEventListener('touchstart', function(e) {
+  function getDistance(t) {
+    return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  }
+  function getMidpoint(t) {
+    return { x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 };
+  }
+  function applyTransform() {
+    img.style.transform = 'translate(' + posX + 'px,' + posY + 'px) scale(' + scale + ')';
+  }
+  function resetTransform() {
+    scale = 1; lastScale = 1;
+    posX = 0; posY = 0; lastPosX = 0; lastPosY = 0;
+    img.style.transition = 'transform 0.3s ease';
+    img.style.transform = 'translate(0,0) scale(1)';
+    setTimeout(function() { img.style.transition = ''; }, 300);
+  }
+
+  wrap.addEventListener('touchstart', function(e) {
+    img.style.transition = '';
     if (e.touches.length === 2) {
       e.preventDefault();
-      e.stopPropagation();
-      baseScale = imgScale;
-      initialDistance = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      );
+      isPinching = true;
+      isDragging = false;
+      startDist = getDistance(e.touches);
+      lastScale = scale;
+    } else if (e.touches.length === 1 && scale > 1) {
+      isDragging = true;
+      startX = e.touches[0].clientX - posX;
+      startY = e.touches[0].clientY - posY;
     }
   }, { passive: false });
 
-  imgWrap.addEventListener('touchmove', function(e) {
-    if (e.touches.length === 2 && initialDistance > 0) {
+  wrap.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 2 && isPinching) {
       e.preventDefault();
-      e.stopPropagation();
-      const currentDistance = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      );
-      const ratio = currentDistance / initialDistance;
-      imgScale = Math.min(Math.max(baseScale * ratio, 1), 4);
-      sbiaImg.style.transform = 'scale(' + imgScale + ')';
-      sbiaImg.style.transition = 'none';
+      var dist = getDistance(e.touches);
+      scale = Math.min(Math.max(lastScale * (dist / startDist), minScale), maxScale);
+      applyTransform();
+    } else if (e.touches.length === 1 && isDragging && scale > 1) {
+      e.preventDefault();
+      posX = e.touches[0].clientX - startX;
+      posY = e.touches[0].clientY - startY;
+      applyTransform();
     }
   }, { passive: false });
 
-  imgWrap.addEventListener('touchend', function(e) {
-    sbiaImg.style.transition = 'transform 0.2s ease';
+  wrap.addEventListener('touchend', function(e) {
     if (e.touches.length === 0) {
-      initialDistance = 0;
-      if (imgScale < 1.15) {
-        imgScale = 1;
-        sbiaImg.style.transform = 'scale(1)';
-      }
+      isPinching = false;
+      isDragging = false;
+      lastScale = scale;
+      lastPosX = posX;
+      lastPosY = posY;
+      if (scale <= 1.05) resetTransform();
+    }
+    if (e.touches.length === 1 && isPinching) {
+      isPinching = false;
+      lastScale = scale;
+      // Switch to drag mode
+      isDragging = true;
+      startX = e.touches[0].clientX - posX;
+      startY = e.touches[0].clientY - posY;
     }
   });
 
-  // Double tap to toggle zoom
-  let lastTap = 0;
-  imgWrap.addEventListener('click', function(e) {
-    const now = Date.now();
+  // Double tap to toggle
+  var lastTap = 0;
+  wrap.addEventListener('touchend', function(e) {
+    if (e.touches.length > 0) return;
+    var now = Date.now();
     if (now - lastTap < 300) {
-      e.preventDefault();
-      imgScale = imgScale > 1.5 ? 1 : 2.5;
-      sbiaImg.style.transition = 'transform 0.3s ease';
-      sbiaImg.style.transform = 'scale(' + imgScale + ')';
+      if (scale > 1.2) {
+        resetTransform();
+      } else {
+        scale = 2.5; lastScale = 2.5;
+        posX = 0; posY = 0;
+        img.style.transition = 'transform 0.3s ease';
+        applyTransform();
+        setTimeout(function() { img.style.transition = ''; }, 300);
+      }
     }
     lastTap = now;
   });
-}
+
+  // Reset on modal close
+  document.getElementById('modalClose').addEventListener('click', resetTransform);
+  document.getElementById('sbiaModal').addEventListener('click', function(e) {
+    if (e.target === this) resetTransform();
+  });
+})();
 
 // ===== Submit =====
 document.getElementById('submitBtn').addEventListener('click', () => showToast('反馈提交成功 ✓'));
