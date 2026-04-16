@@ -306,32 +306,36 @@ function switchTab(t){curTab=t;document.querySelectorAll('.ti').forEach(function
 document.querySelectorAll('.ti').forEach(function(e){e.onclick=function(){switchTab(this.dataset.tab)}});
 document.querySelectorAll('.tg').forEach(function(e){e.onclick=function(){var b=this.dataset.blockId,n=this.dataset.tag;if(state[b].has(n)){state[b].delete(n);this.classList.remove('active')}else{state[b].add(n);this.classList.add('active')}updTA(b);updBtn()}});
 function updTA(b){var ta=document.querySelector('textarea[data-block-id="'+b+'"]'),g=document.querySelector('.gd[data-guide="'+b+'"]'),tags=Array.from(state[b]);if(!tags.length){g.textContent='';g.classList.remove('visible');if(!uc[b].trim())ta.value='';ta.placeholder='请选择标签后根据指引填写';ta.disabled=true;return}g.textContent=tags.map(function(t){return'• '+t+'：从'+(GUIDE_MAP[t]||[]).join('、')+SUFFIX[b]}).join('\n');g.classList.add('visible');ta.disabled=false;if(!uc[b].trim()){ta.value='';ta.placeholder='请在此输入反馈内容...'}}
-document.querySelectorAll('textarea').forEach(function(ta){var b=ta.dataset.blockId;if(!b)return;ta.onblur=function(){uc[b]=this.value;updComp(b);updBtn()};ta.oninput=function(){uc[b]=this.value;this.style.height='auto';this.style.height=Math.max(160,this.scrollHeight)+'px';updComp(b);updBtn()}});
+document.querySelectorAll('textarea').forEach(function(ta){var b=ta.dataset.blockId;if(!b)return;ta.onblur=function(){uc[b]=this.value;updComp(b);updBtn()};ta.oninput=function(){uc[b]=this.value;this.style.height='auto';this.style.height=Math.max(160,this.scrollHeight)+'px';clearErr(b);updComp(b);updBtn()}});
 function cnLen(s){return s.replace(/[^\u4e00-\u9fff]/g,'').length}
 function isDone(b){return uc[b].trim().length>0&&state[b].size>0&&cnLen(uc[b])>=20}
+function clearErr(b){
+  var ta=document.querySelector('textarea[data-block-id="'+b+'"]');
+  var hint=document.querySelector('.err-hint[data-err="'+b+'"]');
+  ta.classList.remove('err');hint.classList.remove('show');
+}
 function checkErr(b){
   var ta=document.querySelector('textarea[data-block-id="'+b+'"]');
   var hint=document.querySelector('.err-hint[data-err="'+b+'"]');
   var text=uc[b].trim();
   if(text.length>0&&state[b].size>0&&cnLen(text)<20){
-    ta.classList.add('err');hint.classList.add('show');
-  }else{
-    ta.classList.remove('err');hint.classList.remove('show');
+    ta.classList.add('err');hint.classList.add('show');return true;
   }
+  ta.classList.remove('err');hint.classList.remove('show');return false;
 }
-function updComp(b){var t=document.querySelector('.ti[data-tab="'+b+'"]');isDone(b)?t.classList.add('completed'):t.classList.remove('completed');checkErr(b)}
+function updComp(b){var t=document.querySelector('.ti[data-tab="'+b+'"]');isDone(b)?t.classList.add('completed'):t.classList.remove('completed')}
 var subBtn=document.getElementById('submitBtn');
 function updBtn(){subBtn.textContent=TABS.every(isDone)?'去提交':'下一个'}
 subBtn.onclick=function(){
-  var hasErr=false;
-  TABS.forEach(function(b){if(uc[b].trim().length>0&&state[b].size>0&&cnLen(uc[b])<20){hasErr=true;checkErr(b)}});
-  if(hasErr){
-    // 跳到第一个有错误的tab
-    for(var j=0;j<TABS.length;j++){var b=TABS[j];if(uc[b].trim().length>0&&state[b].size>0&&cnLen(uc[b])<20){switchTab(b);document.getElementById('feedbackCard').scrollIntoView({behavior:'smooth',block:'start'});return}}
-    return;
-  }
+  // 如果全部完成 → 提交
   if(TABS.every(isDone)){var t=document.getElementById('toast');t.textContent='反馈提交成功 ✓';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000);return}
-  var i=TABS.indexOf(curTab);for(var j=1;j<=TABS.length;j++){var n=(i+j)%TABS.length;if(!isDone(TABS[n])){switchTab(TABS[n]);document.getElementById('feedbackCard').scrollIntoView({behavior:'smooth',block:'start'});return}}
+  // 当前tab有内容但不满20字 → 红框提示，不跳转
+  if(uc[curTab].trim().length>0&&state[curTab].size>0&&cnLen(uc[curTab])<20){
+    checkErr(curTab);return;
+  }
+  // 跳到下一个未完成的tab
+  var i=TABS.indexOf(curTab);
+  for(var j=1;j<=TABS.length;j++){var n=(i+j)%TABS.length;if(!isDone(TABS[n])){switchTab(TABS[n]);document.getElementById('feedbackCard').scrollIntoView({behavior:'smooth',block:'start'});return}}
 };
 updBtn();
 // Float nav button
