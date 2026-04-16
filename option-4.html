@@ -310,10 +310,30 @@ function updBtn(){subBtn.textContent=TABS.every(isDone)?'去提交':'下一个'}
 subBtn.onclick=function(){if(TABS.every(isDone)){var t=document.getElementById('toast');t.textContent='反馈提交成功 ✓';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000);return}var i=TABS.indexOf(curTab);for(var j=1;j<=TABS.length;j++){var n=(i+j)%TABS.length;if(!isDone(TABS[n])){switchTab(TABS[n]);document.getElementById('feedbackCard').scrollIntoView({behavior:'smooth',block:'start'});return}}};
 updBtn();
 // Float nav button
-var floatNav=document.getElementById('floatNav'),floatPoly=document.getElementById('floatPoly'),feedbackCard=document.getElementById('feedbackCard'),overviewCard=document.getElementById('overviewCard'),isUp=true;
-function checkFloat(){var r=overviewCard.getBoundingClientRect();var inOverview=r.top<window.innerHeight&&r.bottom>0;if(inOverview){floatNav.classList.add('show')}else{var fr=feedbackCard.getBoundingClientRect();if(fr.top<window.innerHeight*0.8){floatNav.classList.add('show')}else{floatNav.classList.remove('show')}}}
+var floatNav=document.getElementById('floatNav'),floatPoly=document.getElementById('floatPoly'),feedbackCard=document.getElementById('feedbackCard'),overviewCard=document.getElementById('overviewCard');
+function checkFloat(){
+  var ovR=overviewCard.getBoundingClientRect();
+  var fbR=feedbackCard.getBoundingClientRect();
+  var mid=window.innerHeight/2;
+  // 当视口中间在值班总览区域内 → 显示向下箭头
+  if(ovR.top<mid&&ovR.bottom>mid){
+    floatNav.classList.add('show');
+    floatPoly.setAttribute('points','6 9 12 15 18 9');
+    floatNav.onclick=function(){feedbackCard.scrollIntoView({behavior:'smooth',block:'start'})};
+  }
+  // 当视口中间在教练反馈区域内 → 显示向上箭头
+  else if(fbR.top<mid&&fbR.bottom>mid){
+    floatNav.classList.add('show');
+    floatPoly.setAttribute('points','18 15 12 9 6 15');
+    floatNav.onclick=function(){overviewCard.scrollIntoView({behavior:'smooth',block:'start'})};
+  }
+  // 其他位置隐藏
+  else{
+    floatNav.classList.remove('show');
+  }
+}
 window.addEventListener('scroll',checkFloat);
-floatNav.onclick=function(){if(isUp){overviewCard.scrollIntoView({behavior:'smooth',block:'start'});isUp=false;floatPoly.setAttribute('points','6 9 12 15 18 9')}else{feedbackCard.scrollIntoView({behavior:'smooth',block:'start'});isUp=true;floatPoly.setAttribute('points','18 15 12 9 6 15')}};
+checkFloat();
 </script>
 </body>
 </html>
