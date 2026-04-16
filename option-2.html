@@ -79,6 +79,8 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
 .ta-toast { position: absolute; left: 50%; bottom: 50%; transform: translate(-50%, 50%); background: rgba(0,0,0,0.78); color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; z-index: 10; pointer-events: none; opacity: 0; transition: opacity 0.3s; white-space: nowrap; }
 .ta-toast.show { opacity: 1; }
 .textarea-wrap { position: relative; }
+.ta-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 2; cursor: pointer; display: none; }
+.ta-overlay.active { display: block; }
 
 /* Submit Bar */
 .submit-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px 16px; padding-bottom: calc(12px + var(--safe-bottom)); background: var(--mcd-white); box-shadow: 0 -2px 10px rgba(0,0,0,0.06); z-index: 50; }
@@ -133,7 +135,7 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         <button class="tag" data-tag="业务达成" data-block-id="dowell"><span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button>
         <button class="tag" data-tag="其他" data-block-id="dowell"><span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>其他</button>
       </div>
-      <div class="textarea-wrap"><textarea placeholder="请选择标签（多选）后再根据指引填写" disabled data-block-id="dowell"></textarea><div class="ta-toast" data-toast="dowell">请选择标签（多选）后再根据指引填写</div></div>
+      <div class="textarea-wrap"><textarea placeholder="请选择标签（多选）后再根据指引填写" disabled data-block-id="dowell"></textarea><div class="ta-overlay active" data-ov="dowell"></div><div class="ta-toast" data-toast="dowell">请选择标签（多选）后再根据指引填写</div></div>
     </div>
 
     <!-- Do Better -->
@@ -149,7 +151,7 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         <button class="tag" data-tag="业务达成" data-block-id="dobetter"><span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button>
         <button class="tag" data-tag="其他" data-block-id="dobetter"><span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>其他</button>
       </div>
-      <div class="textarea-wrap"><textarea placeholder="请选择标签（多选）后再根据指引填写" disabled data-block-id="dobetter"></textarea><div class="ta-toast" data-toast="dobetter">请选择标签（多选）后再根据指引填写</div></div>
+      <div class="textarea-wrap"><textarea placeholder="请选择标签（多选）后再根据指引填写" disabled data-block-id="dobetter"></textarea><div class="ta-overlay active" data-ov="dobetter"></div><div class="ta-toast" data-toast="dobetter">请选择标签（多选）后再根据指引填写</div></div>
     </div>
 
     <!-- Do Next -->
@@ -165,7 +167,7 @@ body { font-family: var(--font); background: var(--mcd-bg); color: var(--mcd-dar
         <button class="tag" data-tag="业务达成" data-block-id="donext"><span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button>
         <button class="tag" data-tag="其他" data-block-id="donext"><span class="tag__check"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>其他</button>
       </div>
-      <div class="textarea-wrap"><textarea placeholder="请选择标签（多选）后再根据指引填写" disabled data-block-id="donext"></textarea><div class="ta-toast" data-toast="donext">请选择标签（多选）后再根据指引填写</div></div>
+      <div class="textarea-wrap"><textarea placeholder="请选择标签（多选）后再根据指引填写" disabled data-block-id="donext"></textarea><div class="ta-overlay active" data-ov="donext"></div><div class="ta-toast" data-toast="donext">请选择标签（多选）后再根据指引填写</div></div>
     </div>
   </section>
 </main>
@@ -199,9 +201,11 @@ document.querySelectorAll('.tag').forEach(function(tag) {
 
 function updateTextarea(blockId) {
   var ta = document.querySelector('textarea[data-block-id="' + blockId + '"]');
+  var ov = document.querySelector('.ta-overlay[data-ov="' + blockId + '"]');
   var tags = Array.from(state[blockId]);
   if (tags.length === 0) {
     ta.disabled = true;
+    if (ov) ov.classList.add('active');
     if (userContent[blockId].trim().length === 0) {
       ta.value = ''; ta.placeholder = '请选择标签（多选）后再根据指引填写';
     }
@@ -209,6 +213,7 @@ function updateTextarea(blockId) {
     return;
   }
   ta.disabled = false;
+  if (ov) ov.classList.remove('active');
   if (userContent[blockId].trim().length > 0) {
     ta.placeholder = buildGuide(blockId, tags);
     return;
@@ -218,12 +223,11 @@ function updateTextarea(blockId) {
   ta.style.height = Math.max(120, ta.scrollHeight) + 'px';
 }
 
-// Click on disabled textarea → show toast
-document.querySelectorAll('.textarea-wrap').forEach(function(wrap) {
-  wrap.addEventListener('click', function(e) {
-    var ta = this.querySelector('textarea');
-    if (!ta.disabled) return;
-    var toast = this.querySelector('.ta-toast');
+// Click on disabled textarea overlay → show toast
+document.querySelectorAll('.ta-overlay').forEach(function(ov) {
+  ov.addEventListener('click', function() {
+    var wrap = this.parentElement;
+    var toast = wrap.querySelector('.ta-toast');
     if (!toast) return;
     toast.classList.add('show');
     setTimeout(function() { toast.classList.remove('show'); }, 1500);
