@@ -323,10 +323,13 @@ function updComp(b){var t=document.querySelector('.ti[data-tab="'+b+'"]');isDone
 var subBtn=document.getElementById('submitBtn');
 function updBtn(){subBtn.textContent=TABS.every(isDone)?'去提交':'下一个'}
 subBtn.onclick=function(){
-  // Check all filled tabs for 20-char minimum
   var hasErr=false;
   TABS.forEach(function(b){if(uc[b].trim().length>0&&state[b].size>0&&cnLen(uc[b])<20){hasErr=true;checkErr(b)}});
-  if(hasErr){var t=document.getElementById('toast');t.textContent='请确保每项反馈至少包含20个中文字';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000);return}
+  if(hasErr){
+    // 跳到第一个有错误的tab
+    for(var j=0;j<TABS.length;j++){var b=TABS[j];if(uc[b].trim().length>0&&state[b].size>0&&cnLen(uc[b])<20){switchTab(b);document.getElementById('feedbackCard').scrollIntoView({behavior:'smooth',block:'start'});return}}
+    return;
+  }
   if(TABS.every(isDone)){var t=document.getElementById('toast');t.textContent='反馈提交成功 ✓';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000);return}
   var i=TABS.indexOf(curTab);for(var j=1;j<=TABS.length;j++){var n=(i+j)%TABS.length;if(!isDone(TABS[n])){switchTab(TABS[n]);document.getElementById('feedbackCard').scrollIntoView({behavior:'smooth',block:'start'});return}}
 };
