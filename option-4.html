@@ -144,6 +144,7 @@ textarea:disabled{background:var(--g1);color:var(--g4);cursor:not-allowed}
 textarea.err{border-color:var(--r) !important;box-shadow:0 0 0 3px rgba(218,41,28,.15) !important}
 .err-hint{font-size:11px;color:var(--r);margin-top:4px;display:none}
 .err-hint.show{display:block}
+.ta-wrap{position:relative;cursor:pointer}
 .sub-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 16px;padding-bottom:calc(10px + var(--sb));background:var(--w);box-shadow:0 -2px 10px rgba(0,0,0,.06);z-index:50}
 .sub-btn{width:100%;padding:13px;border:none;border-radius:24px;background:var(--y);color:var(--dk);font-family:var(--f);font-size:15px;font-weight:700;cursor:pointer}
 .sub-btn:active{transform:scale(.98);background:#E8AB00}
@@ -277,9 +278,9 @@ textarea.err{border-color:var(--r) !important;box-shadow:0 0 0 3px rgba(218,41,2
   <button class="ti" data-tab="dobetter"><span class="td td-o"></span>Do Better<span class="tc"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span></button>
   <button class="ti" data-tab="donext"><span class="td td-b"></span>Do Next<span class="tc"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span></button>
 </div>
-<div class="fp active" id="panel-dowell"><div class="fp-h"><span class="fp-i fp-ig"></span><span class="fp-t">Do Well!</span></div><p class="fp-s">做得好的，继续保持！</p><div class="tgs"><button class="tg" data-tag="顾客体验" data-block-id="dowell"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>顾客体验</button><button class="tg" data-tag="员工体验" data-block-id="dowell"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>员工体验</button><button class="tg" data-tag="业务达成" data-block-id="dowell"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button></div><div class="gd" data-guide="dowell"></div><textarea placeholder="请选择标签后根据指引填写" disabled data-block-id="dowell"></textarea><div class="err-hint" data-err="dowell">字数不满20字无法提交</div></div>
-<div class="fp" id="panel-dobetter"><div class="fp-h"><span class="fp-i fp-io"></span><span class="fp-t">Do Better!</span></div><p class="fp-s">可以做得更好的方面！</p><div class="tgs"><button class="tg" data-tag="顾客体验" data-block-id="dobetter"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>顾客体验</button><button class="tg" data-tag="员工体验" data-block-id="dobetter"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>员工体验</button><button class="tg" data-tag="业务达成" data-block-id="dobetter"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button></div><div class="gd" data-guide="dobetter"></div><textarea placeholder="请选择标签后根据指引填写" disabled data-block-id="dobetter"></textarea><div class="err-hint" data-err="dobetter">字数不满20字无法提交</div></div>
-<div class="fp" id="panel-donext"><div class="fp-h"><span class="fp-i fp-ib"></span><span class="fp-t">Do Next!</span></div><p class="fp-s">下一步行动计划！</p><div class="tgs"><button class="tg" data-tag="顾客体验" data-block-id="donext"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>顾客体验</button><button class="tg" data-tag="员工体验" data-block-id="donext"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>员工体验</button><button class="tg" data-tag="业务达成" data-block-id="donext"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button></div><div class="gd" data-guide="donext"></div><textarea placeholder="请选择标签后根据指引填写" disabled data-block-id="donext"></textarea><div class="err-hint" data-err="donext">字数不满20字无法提交</div></div>
+<div class="fp active" id="panel-dowell"><div class="fp-h"><span class="fp-i fp-ig"></span><span class="fp-t">Do Well!</span></div><p class="fp-s">做得好的，继续保持！</p><div class="tgs"><button class="tg" data-tag="顾客体验" data-block-id="dowell"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>顾客体验</button><button class="tg" data-tag="员工体验" data-block-id="dowell"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>员工体验</button><button class="tg" data-tag="业务达成" data-block-id="dowell"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button></div><div class="gd" data-guide="dowell"></div><div class="ta-wrap" data-wrap="dowell"><textarea placeholder="请选择标签后根据指引填写" disabled data-block-id="dowell"></textarea></div><div class="err-hint" data-err="dowell">中文、字母、数字总数不满20个无法提交</div></div>
+<div class="fp" id="panel-dobetter"><div class="fp-h"><span class="fp-i fp-io"></span><span class="fp-t">Do Better!</span></div><p class="fp-s">可以做得更好的方面！</p><div class="tgs"><button class="tg" data-tag="顾客体验" data-block-id="dobetter"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>顾客体验</button><button class="tg" data-tag="员工体验" data-block-id="dobetter"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>员工体验</button><button class="tg" data-tag="业务达成" data-block-id="dobetter"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button></div><div class="gd" data-guide="dobetter"></div><div class="ta-wrap" data-wrap="dobetter"><textarea placeholder="请选择标签后根据指引填写" disabled data-block-id="dobetter"></textarea></div><div class="err-hint" data-err="dobetter">中文、字母、数字总数不满20个无法提交</div></div>
+<div class="fp" id="panel-donext"><div class="fp-h"><span class="fp-i fp-ib"></span><span class="fp-t">Do Next!</span></div><p class="fp-s">下一步行动计划！</p><div class="tgs"><button class="tg" data-tag="顾客体验" data-block-id="donext"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>顾客体验</button><button class="tg" data-tag="员工体验" data-block-id="donext"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>员工体验</button><button class="tg" data-tag="业务达成" data-block-id="donext"><span class="tg-c"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg></span>业务达成</button></div><div class="gd" data-guide="donext"></div><div class="ta-wrap" data-wrap="donext"><textarea placeholder="请选择标签后根据指引填写" disabled data-block-id="donext"></textarea></div><div class="err-hint" data-err="donext">中文、字母、数字总数不满20个无法提交</div></div>
 </section>
 </main>
 <div class="sub-bar"><button class="sub-btn" id="submitBtn">下一个</button></div>
@@ -307,8 +308,10 @@ function switchTab(t){curTab=t;document.querySelectorAll('.ti').forEach(function
 document.querySelectorAll('.ti').forEach(function(e){e.onclick=function(){switchTab(this.dataset.tab)}});
 document.querySelectorAll('.tg').forEach(function(e){e.onclick=function(){var b=this.dataset.blockId,n=this.dataset.tag;if(state[b].has(n)){state[b].delete(n);this.classList.remove('active')}else{state[b].add(n);this.classList.add('active')}updTA(b);updBtn()}});
 function updTA(b){var ta=document.querySelector('textarea[data-block-id="'+b+'"]'),g=document.querySelector('.gd[data-guide="'+b+'"]'),tags=Array.from(state[b]);if(!tags.length){g.textContent='';g.classList.remove('visible');if(!uc[b].trim())ta.value='';ta.placeholder='请选择标签后根据指引填写';ta.disabled=true;return}g.textContent=tags.map(function(t){return'• '+t+'：从'+(GUIDE_MAP[t]||[]).join('、')+SUFFIX[b]}).join('\n');g.classList.add('visible');ta.disabled=false;if(!uc[b].trim()){ta.value='';ta.placeholder='请在此输入反馈内容...'}}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000)}
 document.querySelectorAll('textarea').forEach(function(ta){var b=ta.dataset.blockId;if(!b)return;ta.onblur=function(){uc[b]=this.value;updComp(b);updBtn()};ta.oninput=function(){uc[b]=this.value;this.style.height='auto';this.style.height=Math.max(160,this.scrollHeight)+'px';clearErr(b);updComp(b);updBtn()}});
-function cnLen(s){return s.replace(/[^\u4e00-\u9fff]/g,'').length}
+document.querySelectorAll('.ta-wrap').forEach(function(wrap){var b=wrap.dataset.wrap;wrap.addEventListener('click',function(){var ta=this.querySelector('textarea');if(ta.disabled&&state[b].size===0){showToast('请先选择标签')}})});
+function cnLen(s){return(s.match(/[\u4e00-\u9fff\u3400-\u4dbfa-zA-Z0-9]/g)||[]).length}
 function isDone(b){return uc[b].trim().length>0&&state[b].size>0&&cnLen(uc[b])>=20}
 function clearErr(b){
   var ta=document.querySelector('textarea[data-block-id="'+b+'"]');
@@ -364,7 +367,7 @@ function checkFloat(){
 }
 window.addEventListener('scroll',checkFloat);
 checkFloat();
-// AI typewriter effect
+// AI summary (direct render)
 (function(){
   var lines=[
     {bold:'业务达成：',text:'Sales 低于目标 682 元，MDS 超额亮眼；尖峰 GC 11-12点大幅超标，夸夸调度能力！'},
@@ -374,33 +377,19 @@ checkFloat();
   ];
   var container=document.getElementById('aiTxt');
   var ul=document.createElement('ul');
-  container.appendChild(ul);
-  var lineIdx=0,charIdx=0,currentLi=null,currentSpan=null,speed=30;
-  function typeNext(){
-    if(lineIdx>=lines.length)return;
-    if(!currentLi){
-      currentLi=document.createElement('li');
-      if(lineIdx>0)currentLi.style.marginTop='4px';
-      var b=document.createElement('b');
-      b.textContent=lines[lineIdx].bold;
-      currentLi.appendChild(b);
-      currentSpan=document.createElement('span');
-      currentLi.appendChild(currentSpan);
-      ul.appendChild(currentLi);
-      charIdx=0;
-    }
-    var txt=lines[lineIdx].text;
-    if(charIdx<txt.length){
-      currentSpan.textContent+=txt[charIdx];
-      charIdx++;
-      setTimeout(typeNext,speed);
-    }else{
-      lineIdx++;currentLi=null;currentSpan=null;
-      if(lineIdx>=lines.length){document.getElementById('aiExpandHint').style.display='';return;}
-      setTimeout(typeNext,speed*3);
-    }
+  for(var i=0;i<lines.length;i++){
+    var li=document.createElement('li');
+    if(i>0)li.style.marginTop='4px';
+    var b=document.createElement('b');
+    b.textContent=lines[i].bold;
+    li.appendChild(b);
+    var span=document.createElement('span');
+    span.textContent=lines[i].text;
+    li.appendChild(span);
+    ul.appendChild(li);
   }
-  setTimeout(typeNext,500);
+  container.appendChild(ul);
+  document.getElementById('aiExpandHint').style.display='';
 })();
 </script>
 </body>
