@@ -1,0 +1,572 @@
+.coach-page-shell {
+  min-height: 100vh;
+}
+
+.coach-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px 14px;
+  background: rgba(248, 243, 232, 0.86);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(41, 41, 41, 0.06);
+}
+
+.coach-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #292929;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.coach-content {
+  width: min(100%, 460px);
+  margin: 0 auto;
+  padding: 18px 16px calc(env(safe-area-inset-bottom, 0px) + 110px);
+}
+
+.coach-hero {
+  display: grid;
+  gap: 16px;
+  padding: 24px 22px;
+  margin-bottom: 16px;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 188, 13, 0.28), transparent 34%),
+    linear-gradient(135deg, #fff8eb, #f3ece1);
+  box-shadow:
+    0 24px 48px rgba(41, 41, 41, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.coach-kicker {
+  margin-bottom: 10px;
+  color: #8c7b56;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.coach-hero h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.coach-hero p {
+  margin: 0;
+  color: #6f675f;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.coach-person-card,
+.coach-overview-card,
+.coach-feedback-card {
+  border-radius: 30px !important;
+  box-shadow:
+    0 24px 54px rgba(41, 41, 41, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.88) !important;
+}
+
+.coach-person-card {
+  margin-bottom: 16px;
+}
+
+.coach-person-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.coach-avatar {
+  background: linear-gradient(135deg, #ffcf4e, #ffbc0d) !important;
+  color: #292929 !important;
+}
+
+.coach-person-name {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.coach-person-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 6px;
+  color: #7b736a;
+  font-size: 12px;
+}
+
+.coach-overview-header,
+.coach-section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.coach-overview-header {
+  margin-bottom: 14px;
+}
+
+.coach-overview-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.coach-icon-shell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
+  background: #fff3d1;
+  color: #916200;
+}
+
+.coach-ai-shell {
+  background: linear-gradient(135deg, #fff5d8, #ffe7a4);
+}
+
+.coach-data-shell {
+  background: linear-gradient(135deg, #f7ebcf, #eed8a9);
+}
+
+.coach-section-heading {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.coach-collapse {
+  background: transparent !important;
+}
+
+.coach-collapse .ant-collapse-item,
+.coach-collapse .ar-collapse-item {
+  background: linear-gradient(135deg, #fff8eb, #fff3dc) !important;
+  border: 1px solid rgba(255, 188, 13, 0.16) !important;
+  border-radius: 22px !important;
+}
+
+.coach-collapse .ant-collapse-header,
+.coach-collapse .ar-collapse-header {
+  padding: 14px 16px !important;
+}
+
+.coach-collapse .ant-collapse-content-box,
+.coach-collapse .ar-collapse-content-box {
+  padding-top: 0 !important;
+}
+
+.ai-summary-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.coach-caret-copy {
+  color: #8d857d;
+  font-size: 12px;
+}
+
+.coach-ai-copy {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 2px;
+  color: #675f57;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.coach-ai-line strong {
+  color: #292929;
+}
+
+.coach-ghost-button {
+  color: #6a635c !important;
+}
+
+.coach-section-stack {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.coach-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.coach-kpi-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.coach-kpi-card,
+.coach-data-card,
+.coach-mini-card,
+.coach-tips-card {
+  border: 0 !important;
+  border-radius: 24px !important;
+  background: #f9f6ef !important;
+  box-shadow:
+    0 16px 32px rgba(41, 41, 41, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.coach-kpi-title {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #645c54;
+  font-size: 12px;
+}
+
+.coach-kpi-title span:last-child {
+  color: #999088;
+  font-size: 11px;
+}
+
+.coach-delta {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.coach-data-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.coach-metrics-grid,
+.coach-slot-grid,
+.coach-badge-row {
+  display: grid;
+  gap: 10px;
+}
+
+.coach-metrics-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.coach-metric-cell,
+.coach-slot-card {
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.coach-metric-label,
+.coach-slot-label,
+.coach-mini-label,
+.coach-submit-label {
+  color: #8a8178;
+  font-size: 11px;
+}
+
+.coach-metric-value,
+.coach-slot-value,
+.coach-big-value,
+.coach-inline-stat,
+.coach-submit-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.coach-metric-value strong,
+.coach-slot-value strong,
+.coach-big-value,
+.coach-inline-stat strong,
+.coach-submit-value {
+  color: #292929;
+  font-weight: 700;
+}
+
+.coach-metric-value strong,
+.coach-slot-value strong,
+.coach-big-value,
+.coach-inline-stat strong {
+  font-size: 22px;
+}
+
+.coach-slot-value span,
+.coach-muted-inline,
+.coach-mini-support {
+  color: #91887f;
+  font-size: 12px;
+}
+
+.coach-subsection-title {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.coach-inline-stat {
+  justify-content: space-between;
+}
+
+.coach-dual-stat {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.coach-badge-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.coach-pill {
+  justify-content: center;
+  padding: 6px 12px !important;
+}
+
+.coach-mini-card {
+  text-align: center;
+}
+
+.coach-feedback-section {
+  margin-top: 16px;
+}
+
+.coach-feedback-card {
+  overflow: hidden;
+}
+
+.coach-tips-card {
+  margin-bottom: 14px;
+}
+
+.coach-tips-head {
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.coach-sbia-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.coach-sbia-step {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  padding: 12px 6px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fff9eb, #fff3dd);
+  text-align: center;
+}
+
+.coach-sbia-step span {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.coach-sbia-step small {
+  color: #90867b;
+  font-size: 10px;
+}
+
+.coach-tabs .ant-tabs-nav,
+.coach-tabs .ar-tabs-nav {
+  margin-bottom: 14px !important;
+}
+
+.coach-tab-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.coach-tab-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.coach-green {
+  background: #34a853;
+}
+
+.coach-orange {
+  background: #ff8c00;
+}
+
+.coach-blue {
+  background: #4285f4;
+}
+
+.coach-tab-check {
+  margin-left: 2px;
+  font-size: 14px;
+}
+
+.coach-tab-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.coach-block-title {
+  display: flex;
+  gap: 10px;
+}
+
+.coach-block-bar {
+  width: 4px;
+  border-radius: 999px;
+}
+
+.coach-block-heading {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.coach-block-subtitle {
+  margin-top: 3px;
+  color: #827a72;
+  font-size: 12px;
+}
+
+.coach-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.coach-check-tag {
+  padding: 7px 12px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(41, 41, 41, 0.08) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #625a53 !important;
+}
+
+.coach-check-tag.ant-tag-checkable-checked,
+.coach-check-tag.ar-tag-checkable-checked {
+  border-color: rgba(255, 188, 13, 0.36) !important;
+  background: #fff5d9 !important;
+  color: #292929 !important;
+}
+
+.coach-guide-box {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255, 250, 241, 0.96);
+  color: #70675e;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.coach-guide-line {
+  display: flex;
+  gap: 8px;
+}
+
+.coach-guide-bullet {
+  color: #ffbc0d;
+}
+
+.coach-textarea textarea,
+.coach-textarea .ant-input,
+.coach-textarea .ar-input {
+  min-height: 176px !important;
+  border-radius: 22px !important;
+  padding: 14px 16px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  font-size: 14px !important;
+  line-height: 1.7 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.64);
+}
+
+.coach-input-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #8a8178;
+  font-size: 11px;
+}
+
+.coach-input-footer .is-error {
+  color: #da291c;
+}
+
+.coach-submit-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(100%, 460px);
+  margin: 0 auto;
+  padding: 14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);
+  background: rgba(248, 243, 232, 0.88);
+  backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(41, 41, 41, 0.05);
+}
+
+.coach-submit-copy {
+  min-width: 0;
+}
+
+.coach-submit-value {
+  margin-top: 3px;
+  font-size: 20px;
+}
+
+.is-positive {
+  color: #34a853;
+}
+
+.is-negative {
+  color: #da291c;
+}
+
+@media (max-width: 420px) {
+  .coach-content {
+    padding-inline: 14px;
+  }
+
+  .coach-kpi-grid,
+  .coach-kpi-grid--two,
+  .coach-metrics-grid,
+  .coach-dual-stat,
+  .coach-badge-row,
+  .coach-sbia-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .coach-submit-shell {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .coach-submit-shell .ant-btn,
+  .coach-submit-shell .ar-btn {
+    width: 100%;
+  }
+}
