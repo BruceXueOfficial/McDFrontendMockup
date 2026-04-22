@@ -12,9 +12,14 @@ export default defineConfig({
     assetsDir: 'assets',
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'app/index.html'),
-        'Feature-DutyOverview-V1': resolve(__dirname, 'app/Feature-DutyOverview-V1.html'),
-        'Feature-DutyManagement-V1': resolve(__dirname, 'app/Feature-DutyManagement-V1.html'),
+        'Feature-CoachFeedbackReview-V1/index': resolve(
+          __dirname,
+          'app/Feature-CoachFeedbackReview-V1/index.html',
+        ),
+        'Feature-DutyOverview-V1/index': resolve(
+          __dirname,
+          'app/Feature-DutyOverview-V1/index.html',
+        ),
       },
     },
   },
